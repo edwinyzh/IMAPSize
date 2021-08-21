@@ -1,4 +1,4 @@
-IMAPSize © Ivan Vecanski ("AUTHOR") 2003 - 2009. All rights reserved.
+IMAPSize Â© Ivan Vecanski ("AUTHOR") 2003 - 2009. All rights reserved.
 
 This licence describes the conditions under which you may use IMAPSize ("SOFTWARE"). If you are unable or unwilling to accept these conditions in full, then, notwithstanding the conditions in the remainder of this licence, you may not use the program at all.
 
