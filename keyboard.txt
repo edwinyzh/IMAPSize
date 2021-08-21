@@ -1,0 +1,82 @@
+TreeView Shortcuts                                                  
+==================                                                  
+                                                                    
+RETURN          Retrieve envelopes                                  
+F2              Delete all messages                                 
+CTRL+F2         Undelete all messages                               
+CTRL+E          Expunge mailbox                                     
+CTRL+X          Delete all and expunge                              
+CTRL+SHIFT+C    Create mailbox (root level)                         
+CTRL+SHIFT+S    Create Submailbox                                   
+CTRL+SHIFT+R    Rename mailbox
+CTRL+SHIFT+D    Delete mailbox
+ALT+L           List sorted by size
+CTRL+\          Expand all levels
+CTRL+/          Collapse all levels
+
+ListView Shortcuts
+==================
+
+RETURN          Peek Message
+F2              Set Delete
+F3              Set Seen
+F4              Set Flag
+CTRL+F2         Unset Delete
+CTRL+F3         Unset Seen
+CTRL+F4         Unset Flag
+CTRL+DEL    Delete Attachments
+CTRL+X          Delete Selected and Expunge
+CTRL+E          Expunge Mailbox
+CTRL+C          Copy to destination
+CTRL+SHIFT+C    Copy to new destination
+CTRL+K          Copy, Delete to destination
+CTRL+SHIFT+K    Copy, Delete to new destination
+CTRL+M          Copy, Delete, Expunge (move) to destination
+CTRL+SHIFT+M    Copy, Delete, Expunge (move) to new destination
+CTRL+H          Save Message Headers
+CTRL+R          Reload mailbox
+
+Main menu shortcuts
+===================
+
+CTRL+SHIFT+E    Export to CSV
+ALT+F4          Exit
+CTRL+S          Check Size
+CTRL+Q          Check Quota
+CTRL+B          Account Backup
+CTRL+L          List by size
+CTRL+G          Global Search
+CTRL+O          Options
+F1              Help
+
+Search shortcuts
+================
+
+RETURN              search text
+SHIFT-RETURN        display messages not containing text
+CTRL-RETURN         advanced search
+CTRL-ESC            cancel search
+
+Sorting shortcuts:        
+=================         
+CTRL+1  Sort by From      
+CTRL+2  Sort by To        
+CTRL+3  Sort by Subject   
+CTRL+4  Sort by Date      
+CTRL+5  Sort by Size      
+CTRL+6  Sort by SpamScore 
+CTRL+7  Sort by UID       
+CTRL+8  No sort           
+
+Other shortcuts
+===============
+
+ESC     Stop any running threads / close dialogs
+CTRL+F  Focus Search Edit box
+CTRL+A  Focus Account Combo
+CTRL+[  Focus Tree
+CTRL+]  Focus List
+CTRL+D  Invoke Displayed Mailbox picker
+CTRL+T  Invoke Destination (target) picker
+
+

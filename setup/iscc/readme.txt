@@ -1,0 +1,1 @@
+This folder contains everything needed to build the setup file. WANT has some problems finding the iscc path, so the build file is pointing to this directory for convenience.

@@ -1,0 +1,206 @@
+<?xml version="1.0" ?>
+
+<project name="IMAPSize" basedir="." default="compile">
+
+    <!-- This is where the version string is being changed -->
+    <!-- This build file will update the projects dof file -->
+    <property name="version_major" value="0" />
+    <property name="version_minor" value="3" />
+    <property name="version_release" value="7" />
+    <property name="version_build" value="2" />
+
+    <tstamp><format property="date" pattern="yyyy-mm-dd"/></tstamp>
+
+    <property name="src.dir"   value="${basedir}/src" />
+    <property name="etc.dir"   value="${basedir}/etc" />
+    <property name="3pp.dir"   value="${basedir}/3pp" />
+    <property name="build.dir" value="${basedir}/build" />
+    <property name="dcu.dir"   value="${basedir}/build/dcu" />
+    <property name="dist.dir"  value="${basedir}/dist" />
+
+    <patternset id = "sources" >
+        <include name = "${src.dir}/lib"  />
+        <include name = "${src.dir}/quickrtti"  />
+        <include name = "${src.dir}/synapse"  />
+        <include name = "${src.dir}/vectrics"/>
+        <include name = "${src.dir}/dpcl"/>
+        <include name = "${src.dir}/htmllite"/>
+    </patternset>
+
+    <!-- Update the labels that depend on the version -->
+    <!-- Note: Want doesn't correctly handle multiple substs in one file, so the stuff below doesn't look very nice... -->
+    <target name="version" >
+        <echo message="Updating tags to version: ${version_major}.${version_minor}.${version_release}.${version_build}" />
+        <echo message="Updating etc/readme.txt" />
+        <edit file="${etc.dir}/readme.txt.template" >
+            <subst pattern="{VERSION}" subst="${version_major}.${version_minor}.${version_release}.${version_build}" global="true" From="." To="$"/>
+            <write file="${etc.dir}/readme.txt"/>
+        </edit>
+        <edit file="${etc.dir}/readme.txt" >
+            <subst pattern="{DATE}" subst="${date}" global="true" From="." To="$" />
+            <write file="${etc.dir}/readme.txt" />
+        </edit>
+
+        <echo message="Updating etc/setup/imapsize.iss" />
+        <edit file="${etc.dir}/setup/imapsize.iss.template">
+            <subst pattern="{VERSION}" subst="${version_major}.${version_minor}.${version_release}.${version_build}" global="true" From="." To="$"/>
+            <write file="${etc.dir}/setup/imapsize.iss"/>
+        </edit>
+        <edit file="${etc.dir}/setup/imapsize.iss">
+            <subst pattern="{VERSION_SHORT}" subst="${version_major}${version_minor}${version_release}${version_build}" global="true" From="." To="$"/>
+            <write file="${etc.dir}/setup/imapsize.iss"/>
+        </edit>
+
+        <echo message="Updating src/imapsize.dof"/>
+        <edit file="${src.dir}/imapsize.dof">
+            <subst pattern="^MajorVer=.*$" subst="MajorVer=${version_major}" global="true" From="." To="$"/>
+            <write file="${src.dir}/imapsize.dof"/>
+        </edit>
+        <edit file="${src.dir}/imapsize.dof">
+            <subst pattern="^MinorVer=.*$" subst="MinorVer=${version_minor}" global="true" From="." To="$"/>
+            <write file="${src.dir}/imapsize.dof"/>
+        </edit>
+        <edit file="${src.dir}/imapsize.dof">
+            <subst pattern="^Release=.*$" subst="Release=${version_release}" global="true" From="." To="$"/>
+            <write file="${src.dir}/imapsize.dof"/>
+        </edit>
+        <edit file="${src.dir}/imapsize.dof">
+            <subst pattern="^FileVersion=.*$" subst="FileVersion=${version_major}.${version_minor}.${version_release}.${version_build}" global="true" From="." To="$"/>
+            <write file="${src.dir}/imapsize.dof"/>
+        </edit>
+        <edit file="${src.dir}/imapsize.dof">
+            <subst pattern="^ProductVersion=.*$" subst="ProductVersion=${version_major}.${version_minor}.${version_release}.${version_build}" global="true" From="." To="$"/>
+            <write file="${src.dir}/imapsize.dof"/>
+        </edit>
+
+    </target>
+
+    <target name="clean">
+        <delete dir="${dcu.dir}">
+            <include name="**" />
+        </delete>
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${build.dir}" />
+        <mkdir dir="${dcu.dir}" />
+    </target>
+
+    <target name = "compile" depends="prepare" >
+        <dcc basedir = "." source = "${src.dir}/imapsize.dpr" >
+            <build value = "True"  />
+            <exeoutput path = "${build.dir}/"  />
+            <dcuoutput path = "${dcu.dir}/"  />
+            <WriteableConst value = "True"  />
+            <DefinitionInfo value = "False"  />
+            <warnings value = "True"  />
+            <map value = "detailed"  />
+            <console value = "True"  />
+            <define name = "madExcept"  />
+            <unitPath refid = "sources"  />
+            <includePath refid = "sources"  />
+            <resourcePath refid = "sources"  />
+        </dcc>
+    </target>
+
+    <target name="inno">
+        <iscc
+            source="${etc.dir}/setup/imapsize.iss"
+            isccpath="${etc.dir}/setup/iscc/iscc.exe"
+        />
+    </target>
+
+    <!-- Forms the distribution packages and places them in the correct location -->
+    <target name="dist" depends="version, inno" >
+        <!-- Make sure the directory where files will be placed exists -->
+        <property name="release.dir" value="${dist.dir}/${version_major}.${version_minor}.${version_release}.${version_build}" />
+        <mkdir dir="${release.dir}" />
+        <!-- Remove existing distributions from this dir -->
+        <delete>
+            <fileset dir="${release.dir}" >
+                <include name="*.*" />
+            </fileset>
+        </delete>
+        <!-- Copy imapsize.exe. Not necessary, but usefull -->
+        <copy todir="${release.dir}" >
+            <fileset dir="${build.dir}" >
+                <include name="imapsize.exe" />
+            </fileset>
+        </copy>
+
+        <!-- Copy *Setup.exe (created by the inno target) -->
+        <move todir="${release.dir}" >
+            <fileset dir="${dist.dir}" >
+                <include name="IMAPSize*Setup.exe" />
+            </fileset>
+        </move>
+
+        <!-- Create the zipped distribution -->
+        <echo message="Creating zipped distribution..." />
+        <mkdir dir="${dist.dir}/zipped" />
+        <delete>
+            <fileset dir="${dist.dir}/zipped" >
+                <include name="*.*" />
+            </fileset>
+        </delete>
+        <copy todir="${dist.dir}/zipped" >
+            <fileset dir="${etc.dir}" >
+                <include name="readme.txt" />
+                <include name="licence.txt" />
+                <include name="keyboard.txt" />
+                <include name="imapsize.url" />
+                <include name="imapsize.xml" />
+            </fileset>
+            <fileset dir="${build.dir}" >
+                <include name="imapsize.exe" />
+            </fileset>
+            <fileset dir="${3pp.dir}/sqlite" >
+                <include name="*.dll" />
+            </fileset>
+            <fileset dir="${3pp.dir}/ssl" >
+                <include name="*.dll" />
+            </fileset>
+        </copy>
+        <zip zipfile="${release.dir}/IMAPSize_${version_major}${version_minor}${version_release}${version_build}.zip" >
+            <fileset dir="${dist.dir}/zipped" >
+                <include name="*.*" />
+            </fileset>
+        </zip>
+
+        <!-- Create the zipped upgrade -->
+        <echo message="Creating zipped upgrade..." />
+        <mkdir dir="${dist.dir}/upgrade" />
+        <delete>
+            <fileset dir="${dist.dir}/upgrade" >
+                <include name="*.*" />
+            </fileset>
+        </delete>
+        <copy todir="${dist.dir}/upgrade" >
+            <fileset dir="${etc.dir}" >
+                <include name="readme.txt" />
+                <include name="licence.txt" />
+                <include name="keyboard.txt" />
+            </fileset>
+            <fileset dir="${build.dir}" >
+                <include name="imapsize.exe" />
+            </fileset>
+            <fileset dir="${3pp.dir}/sqlite" >
+                <include name="*.dll" />
+            </fileset>
+        </copy>
+        <zip zipfile="${release.dir}/IMAPSize_${version_major}${version_minor}${version_release}${version_build}_Upgrade.zip" >
+            <fileset dir="${dist.dir}/upgrade" >
+                <include name="*.*" />
+            </fileset>
+        </zip>
+
+        <!-- And finally, could be handy, zip up the source and store in the release dir -->
+        <echo message="Zipping up the source for this release" />
+        <zip zipfile="${release.dir}/src_${version_major}${version_minor}${version_release}${version_build}.zip" >
+            <fileset dir="${src.dir}" >
+                <include name="**" />
+            </fileset>
+        </zip>
+    </target>
+
+</project>

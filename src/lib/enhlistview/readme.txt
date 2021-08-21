@@ -1,0 +1,1 @@
+This is the modified EnhListView used by imapsize. The original one is located in the 3pp folder. First install the component, then overwrite the source file from the installed location with this version.

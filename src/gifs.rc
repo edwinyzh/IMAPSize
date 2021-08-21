@@ -1,0 +1,4 @@
+GIF_PROGRESS_BUSY GIF ..\etc\ikone\progressbusy.gif
+GIF_PROGRESS_DONE GIF ..\etc\ikone\progressdone.gif
+GIF_PROGRESS_DONE_ERRORS GIF ..\etc\ikone\progressdonewitherrors.gif
+GIF_PROGRESS_FAILED GIF ..\etc\ikone\progressfailed.gif
