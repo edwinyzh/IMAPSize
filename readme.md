@@ -1,12 +1,12 @@
-Product: IMAPSize
-Version: 0.3.7.2
-Platform: Win32
-Date: 2010-06-02
-Licence: Freeware
-Website: http://www.broobles.com/imapsize
-Support Forum: http://www.broobles.com/forum/
-RSS feed: http://www.broobles.com/imapsize/news.xml
-email: imapsize@broobles.com
+Product: IMAPSize  
+Version: 0.3.7.2  
+Platform: Win32  
+Date: 2010-06-02  
+Licence: Freeware  
+Website: http://www.broobles.com/imapsize  
+Support Forum: http://www.broobles.com/forum/  
+RSS feed: http://www.broobles.com/imapsize/news.xml  
+email: imapsize@broobles.com  
 
 IMAPSize is a freeware application for Windows OS that allows you to quickly and efficiently manage your IMAP mail accounts. It is not another mail client. The main purpose of IMAPSize is to locate space consuming folders and allow you to manage them, hence putting your storage quota under control. To accomplish this task IMAPSize offers a variety of usefull (and some unique) operations.
 
