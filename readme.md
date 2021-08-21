@@ -14,7 +14,7 @@ A help file is not available, but you will probably find your way around... To g
 
 In case you need help, find any problems or have suggestions you can use the forum on http://www.broobles.com/forum/ 
 
-Installation:
+Installation
 =============
 
 If installing from a zipped distribution, just unpack the zip file to a folder of your choice (e.g. C:\tools\imapsize) and start imapsize.exe. This software doesn't store any data in your Windows registry and doesn't contain any adware, spyware, etc...
